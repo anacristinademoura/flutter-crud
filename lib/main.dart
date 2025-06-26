@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_crud/provider/users.dart';
+import 'package:flutter_crud/routes/app_routes.dart';
+import 'package:flutter_crud/views/user_form.dart';
 import 'package:flutter_crud/views/user_list.dart';
 import 'package:provider/provider.dart';
 
@@ -15,12 +17,22 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [ChangeNotifierProvider(create: (ctx) => Users())],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
+        //Mudança na cor da AppBar para versão mais recente - colorScheme
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          useMaterial3: true,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white
+          ),
           visualDensity: VisualDensity.adaptivePlatformDensity
         ),
-        home: UserList(),
+        routes: {
+          AppRoutes.HOME: (_) => UserList(),
+          AppRoutes.USER_FORM: (_) => UserForm()
+        }
       ),
     );
   }

@@ -14,18 +14,29 @@ class Users with ChangeNotifier {
 
   User byIndex(int i) => _items.values.elementAt(i);
 
-  //adicionar
-
   void put(User user) {
-    final id = Random().nextDouble().toString();
+    if (user.id.trim().isNotEmpty && _items.containsKey(user.id)) {
+      //alterar
+      _items.update(user.id, (_) => user);
+      notifyListeners();
+    } else {
+      //adicionar
+      final id = Random().nextDouble().toString();
 
-    _items.putIfAbsent( id, () => User(
-      id: id,
-      name: user.name,
-      email: user.email,
-      avatarUrl: user.avatarUrl,
-    ));
-    //alterar
-    //notifyListeners();
+      _items.putIfAbsent(
+        id,
+        () => User(
+          id: id,
+          name: user.name,
+          email: user.email,
+          avatarUrl: user.avatarUrl,
+        ),
+      );
+      notifyListeners();
+    }
   }
+  void remove(User user){
+      _items.remove(user.id);
+      notifyListeners();
+    }
 }
